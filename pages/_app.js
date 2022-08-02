@@ -8,6 +8,11 @@ function MyApp({ Component, pageProps }) {
 
 
   useEffect(() => {
+    const queryString = decodeURIComponent(window.location.search).replace("?liff.state=", "");
+    const params = new URLSearchParams(queryString);
+    const tkey = params.get('key');
+
+
     const fetchData = async () => {
       const liff = (await import('@line/liff')).default
 
@@ -19,9 +24,9 @@ function MyApp({ Component, pageProps }) {
       }
 
       if (!liff.isLoggedIn()) {
-        let path  = localStorage.getItem('path')
+        tkey  =  tkey == null ? '': tkey
         
-        liff.login({ redirectUri : `https://queue.diligentsoftinter.com/${path}` })
+        liff.login({ redirectUri : `https://sswcenter-line-liff.diligentsoftinter.com/${tkey}` })
         
 
         
