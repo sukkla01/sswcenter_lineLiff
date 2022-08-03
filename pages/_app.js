@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
     const params = new URLSearchParams(queryString);
     const tkey = params.get('key');
 
-    alert(tkey)
+    // alert(tkey)
     const fetchData = async () => {
       const liff = (await import('@line/liff')).default
 
@@ -25,11 +25,9 @@ function MyApp({ Component, pageProps }) {
 
       if (!liff.isLoggedIn()) {
         tkey  =  tkey == null ? '': tkey
-        alert(tkey)
+        // alert(tkey)
         liff.login({ redirectUri : `https://sswcenter-line-liff.diligentsoftinter.com/${tkey}` })
-        
 
-        
       }
     }
     fetchData()

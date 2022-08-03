@@ -9,17 +9,13 @@ export default function Home() {
   const router = useRouter()
 
   useEffect(() => {
+    const queryString = decodeURIComponent(window.location.search).replace("?liff.state=", "");
+    const params = new URLSearchParams(queryString);
+    let tkey = params.get('key');
+    // alert(path)
+    tkey  =  tkey == null ? '': tkey
+    router.push(`/${tkey}`)
 
-    let path = localStorage.getItem('path')
-    if (path == 'test') {
-      router.push('/test')
-    }
-    else if (path == 'myprofile') {
-      router.push('/myprofile')
-    }
-    else {
-      router.push('/')
-    }
   }, [])
   return (
     <div>
