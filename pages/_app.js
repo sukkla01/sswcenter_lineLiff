@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }) {
 
       if (!liff.isLoggedIn()) {
         tkey  =  tkey == null ? '': tkey
-        
+        alert(tkey)
         liff.login({ redirectUri : `https://sswcenter-line-liff.diligentsoftinter.com/${tkey}` })
         
 
