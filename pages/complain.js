@@ -12,7 +12,7 @@ import config from '../config'
 
 const { TextArea } = Input;
 
-function complain() {
+function Complain() {
     // const router = useRouter()
     // const [count, setCount] = useState(0)
     const [profile, setProfile] = useState({})
@@ -170,4 +170,4 @@ function complain() {
     )
 }
 
-export default complain
+export default Complain
