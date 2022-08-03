@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
     const params = new URLSearchParams(queryString);
     const tkey = params.get('key');
 
-
+    alert(tkey)
     const fetchData = async () => {
       const liff = (await import('@line/liff')).default
 
