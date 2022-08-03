@@ -13,12 +13,12 @@ import config from '../config'
 const { TextArea } = Input;
 
 function complain() {
-    const router = useRouter()
-    const [count, setCount] = useState(0)
+    // const router = useRouter()
+    // const [count, setCount] = useState(0)
     const [profile, setProfile] = useState({})
     const [alertM, setUAlertm] = useState("");
-    const [status, setStatus] = useState("N");
-    const [isLoading, setIsLoading] = useState(true);
+    // const [status, setStatus] = useState("N");
+    // const [isLoading, setIsLoading] = useState(true);
     const [formData, setFormData] = useState(
         {
             dept: '',
