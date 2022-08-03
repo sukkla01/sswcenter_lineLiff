@@ -76,11 +76,11 @@ function Complain() {
         <div style={{ textAlign: "center" }}>
             <NavHeader title='ร้องเรียน/เสนอแนะ' />
             <div style={{ paddingTop: '20%', textAlign: 'center' }}>
-                <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 350, borderRadius: 15 }}>
+                <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 310, borderRadius: 15 }}>
 
                     <div className='text-center' style={{ marginTop: 0 }}>
                         {/* <h4 style={{ color: '#3f51b5', paddingTop: 20 }}>ร้องเรียน/เสนอแนะ</h4> */}
-                        <div style={{ textAlign: 'left', marginLeft: 20,paddingTop:10 }}><p>ข้อมูลทั่วไป</p></div>
+                        <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p>ข้อมูลทั่วไป</p></div>
                         <form>
                             <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
                                 <div className="form-group" style={{ marginTop: 10 }}>
@@ -137,9 +137,9 @@ function Complain() {
                     </div>
                 </div>
 
-                <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 100, borderRadius: 15, marginTop: 10 }}>
-                    <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 10 }}><p>ระดับความพึงพอใจในภาพรวม</p></div>
-                    <Rate count={5} value={formData.rate} style={{ fontSize: 28 }} onChange={e => {
+                <div style={{textAlign: 'left', backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 100, borderRadius: 15, marginTop: 10 }}>
+                    <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p>ระดับความพึงพอใจในภาพรวม</p></div>
+                    <Rate count={5} value={formData.rate} style={{ fontSize: 28,marginTop: -15, marginLeft: 20}} onChange={e => {
                         // setIsCode(false)
                         setFormData({ ...formData, rate: e })
 
@@ -147,16 +147,37 @@ function Complain() {
                 </div>
 
                 <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 200, borderRadius: 15, marginTop: 10 }}>
-                    <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 10 }}><p>เรื่องชื่นชม</p></div>
+                    <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p>เรื่องชื่นชม</p></div>
                     <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
                         <TextArea rows={4} placeholder="maxLength is 6" maxLength={6} />
                     </div>
                 </div>
 
                 <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 200, borderRadius: 15, marginTop: 10 }}>
-                    <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 10 }}><p>เรื่องที่ท่านต้องการให้ปรับปรุงแก้ไข</p></div>
+                    <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p>เรื่องที่ท่านต้องการให้ปรับปรุงแก้ไข</p></div>
                     <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
                         <TextArea rows={4} placeholder="maxLength is 6" maxLength={6} />
+                    </div>
+                </div>
+
+                <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 170, borderRadius: 15, marginTop: 10 }}>
+                    <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; หากโรงพยาบาลศรีสังวรสุโขทัย เรียนเชิญท่านเข้าร่วมประชุม/โทรศัพท์ไปเพื่อสอบถามและเสนอแนะแนวทางการแก้ไขปัญหาของโรงพยาบาล</p></div>
+                    <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
+                        <div className='row mt-4' >
+                            <div className='col-6'>
+                                <Button type="dashed" primary block>
+                                    ยินดีให้ความร่วมมือ
+                                </Button>
+                            </div>
+                            <div className='col-6'>
+                                <Button type="dashed" danger block>
+                                    ไม่ยินดีให้ความร่วมมือ
+                                </Button>
+                            </div>
+                        </div>
+
+
+
                     </div>
                 </div>
 
