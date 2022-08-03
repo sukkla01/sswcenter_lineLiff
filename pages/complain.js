@@ -74,13 +74,13 @@ function Complain() {
 
     return (
         <div style={{ textAlign: "center" }}>
-            <NavHeader />
+            <NavHeader title='ร้องเรียน/เสนอแนะ' />
             <div style={{ paddingTop: '20%', textAlign: 'center' }}>
                 <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 350, borderRadius: 15 }}>
 
                     <div className='text-center' style={{ marginTop: 0 }}>
-                        <h4 style={{ color: '#3f51b5', paddingTop: 20 }}>ร้องเรียน/เสนอแนะ</h4>
-                        <div style={{ textAlign: 'left', marginLeft: 20 }}><p>ข้อมูลทั่วไป</p></div>
+                        {/* <h4 style={{ color: '#3f51b5', paddingTop: 20 }}>ร้องเรียน/เสนอแนะ</h4> */}
+                        <div style={{ textAlign: 'left', marginLeft: 20,paddingTop:10 }}><p>ข้อมูลทั่วไป</p></div>
                         <form>
                             <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
                                 <div className="form-group" style={{ marginTop: 10 }}>

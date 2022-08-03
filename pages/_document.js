@@ -9,7 +9,7 @@ class MyDocument extends Document {
     render() {
         return (
             <Html>
-                <title>ssw | ss</title>
+                <title>รพ.ศรีสังวรสุโขทัย</title>
                 <Head>
                     <div>
 
