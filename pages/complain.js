@@ -148,6 +148,7 @@ function Complain() {
     }
 
     const agree = (value) => {
+        console.log(value)
         setFormData({ ...formData, ok: value })
     }
 
@@ -155,7 +156,7 @@ function Complain() {
         <div style={{ textAlign: "left" }}>
             <NavHeader title='ร้องเรียน/เสนอแนะ' />
             <div style={{ paddingTop: '18%', textAlign: 'center' }}>
-                <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 310, borderRadius: 15 }}>
+                <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 210, borderRadius: 15 }}>
 
                     <div className='text-center' style={{ marginTop: 0 }}>
                         {/* <h4 style={{ color: '#3f51b5', paddingTop: 20 }}>ร้องเรียน/เสนอแนะ</h4> */}
@@ -203,26 +204,7 @@ function Complain() {
                                     </Select>
 
                                 </div>
-                                <div className="form-group" style={{ marginTop: 15 }}>
-                                    <Input placeholder="ชื่อ-สกุล ผู้แจ้ง" value={formData.tname} onChange={e => {
-                                        // setIsCode(false)
-                                        setFormData({ ...formData, tname: e.target.value })
 
-                                    }}
-
-                                    />
-
-                                </div>
-                                <div className="form-group" style={{ marginTop: 15 }}>
-                                    <Input placeholder="เบอร์โทร ผู้แจ้ง" value={formData.tel} onChange={e => {
-                                        // setIsCode(false)
-                                        setFormData({ ...formData, tel: e.target.value })
-
-                                    }}
-
-                                    />
-
-                                </div>
 
                             </div>
                         </form>
@@ -232,14 +214,7 @@ function Complain() {
                     </div>
                 </div>
 
-                <div style={{ textAlign: 'left', backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 100, borderRadius: 15, marginTop: 10 }}>
-                    <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p>ระดับความพึงพอใจในภาพรวม</p></div>
-                    <Rate count={5} value={formData.rate} style={{ fontSize: 28, marginTop: -15, marginLeft: 20 }} onChange={e => {
-                        // setIsCode(false)
-                        setFormData({ ...formData, rate: e })
-
-                    }} />
-                </div>
+               
 
                 <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 200, borderRadius: 15, marginTop: 10 }}>
                     <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p>เรื่องชื่นชม</p></div>
@@ -262,6 +237,14 @@ function Complain() {
                         }} />
                     </div>
                 </div>
+                <div style={{ textAlign: 'left', backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 100, borderRadius: 15, marginTop: 10 }}>
+                    <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p>ระดับความพึงพอใจในภาพรวม</p></div>
+                    <Rate count={5} value={formData.rate} style={{ fontSize: 28, marginTop: -15, marginLeft: 20 }} onChange={e => {
+                        // setIsCode(false)
+                        setFormData({ ...formData, rate: e })
+
+                    }} />
+                </div>
 
                 <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 170, borderRadius: 15, marginTop: 10 }}>
                     <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; หากโรงพยาบาลศรีสังวรสุโขทัย เรียนเชิญท่านเข้าร่วมประชุม/โทรศัพท์ไปเพื่อสอบถามและเสนอแนะแนวทางการแก้ไขปัญหาของโรงพยาบาล</p></div>
@@ -283,14 +266,40 @@ function Complain() {
 
                     </div>
                 </div>
+                {formData.ok ?
+                    <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 150, borderRadius: 15, marginTop: 10 }}>
+                        <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}></div>
+                        <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 0 }}>
+                            <div className="form-group" style={{ marginTop: 15 }}>
+                                <Input placeholder="ชื่อ-สกุล ผู้แจ้ง" value={formData.tname} onChange={e => {
+                                    // setIsCode(false)
+                                    setFormData({ ...formData, tname: e.target.value })
 
-                <div style={{ marginTop: 30, marginLeft: 10, marginRight: 10, marginBottom: 100 }} >
+                                }}
+
+                                />
+
+                            </div>
+                            <div className="form-group" style={{ marginTop: 15 }}>
+                                <Input placeholder="เบอร์โทร ผู้แจ้ง" value={formData.tel} onChange={e => {
+                                    // setIsCode(false)
+                                    setFormData({ ...formData, tel: e.target.value })
+
+                                }}
+
+                                />
+
+                            </div>
+
+                        </div>
+                    </div> : ''}
+
+                <div style={{ marginTop: 30, marginLeft: 10, marginRight: 10, marginBottom: 10 }} >
                     <Button type={profile != {} ? "primary" : "default"} block size={'large'} onClick={submit}  >
                         ส่ง
                     </Button>
                 </div>
-                <div style={{ marginTop: 30, marginLeft: 20, marginRight: 20, marginBottom: 100 }} >
-
+                <div className='row' style={{ marginTop: 10, marginLeft: 20, marginRight: 20, marginBottom: 100 }} >
                 </div>
             </div>
         </div>
