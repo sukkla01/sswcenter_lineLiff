@@ -190,7 +190,7 @@ function Complain() {
                                     >
                                         {datatype.map((item, i) => {
 
-                                            return <Option value={item.id}>{item.name}</Option>
+                                            return <Option value={item.id} key={i}>{item.name}</Option>
                                         })}
                                     </Select>
 
