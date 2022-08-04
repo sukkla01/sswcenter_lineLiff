@@ -101,7 +101,9 @@ function Complain() {
                 try {
                     let res = await axios.post(`${BASE_URL}/add-complain`, formData, { headers: { "token": token } })
                     console.log(res.data)
-                    // router.push('/success')
+                    const liff = (await import('@line/liff')).default
+                    await liff.ready
+                    liff.closeWindow()
                 } catch (error) {
                     alert(error)
                 }
@@ -146,7 +148,7 @@ function Complain() {
     return (
         <div style={{ textAlign: "left" }}>
             <NavHeader title='ร้องเรียน/เสนอแนะ' />
-            <div style={{ paddingTop: '20%', textAlign: 'center' }}>
+            <div style={{ paddingTop: '18%', textAlign: 'center' }}>
                 <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 310, borderRadius: 15 }}>
 
                     <div className='text-center' style={{ marginTop: 0 }}>
@@ -160,7 +162,7 @@ function Complain() {
                                     </ConfigProvider>
                                 </div>
                                 <div className="form-group" style={{ marginTop: 15 }}>
-                                    <Input placeholder="หน่วยงาน" value={formData.dept} onChange={e => {
+                                    <Input placeholder="หน่วยงานที่พบ" value={formData.dept} onChange={e => {
                                         // setIsCode(false)
                                         setFormData({ ...formData, dept: e.target.value })
 
@@ -196,7 +198,7 @@ function Complain() {
 
                                 </div>
                                 <div className="form-group" style={{ marginTop: 15 }}>
-                                    <Input placeholder="ชื่อ-สกุล" value={formData.tname} onChange={e => {
+                                    <Input placeholder="ชื่อ-สกุล ผู้แจ้ง" value={formData.tname} onChange={e => {
                                         // setIsCode(false)
                                         setFormData({ ...formData, tname: e.target.value })
 
@@ -206,7 +208,7 @@ function Complain() {
 
                                 </div>
                                 <div className="form-group" style={{ marginTop: 15 }}>
-                                    <Input placeholder="เบอร์โทร" value={formData.tel} onChange={e => {
+                                    <Input placeholder="เบอร์โทร ผู้แจ้ง" value={formData.tel} onChange={e => {
                                         // setIsCode(false)
                                         setFormData({ ...formData, tel: e.target.value })
 
@@ -236,7 +238,7 @@ function Complain() {
                 <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 200, borderRadius: 15, marginTop: 10 }}>
                     <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p>เรื่องชื่นชม</p></div>
                     <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
-                        <TextArea value={formData.like_text} rows={4} placeholder="กรอกเรื่องชื่นชม" maxLength={6} onChange={e => {
+                        <TextArea value={formData.like_text} rows={4} placeholder="กรอกเรื่องชื่นชม"  onChange={e => {
                             // setIsCode(false)
                             setFormData({ ...formData, like_text: e.target.value })
 
@@ -247,7 +249,7 @@ function Complain() {
                 <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 200, borderRadius: 15, marginTop: 10 }}>
                     <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p>เรื่องที่ท่านต้องการให้ปรับปรุงแก้ไข</p></div>
                     <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
-                        <TextArea value={formData.change_text} rows={4} placeholder="กรอกเรื่องที่ท่านต้องการให้ปรับปรุงแก้ไข" maxLength={6} onChange={e => {
+                        <TextArea value={formData.change_text} rows={4} placeholder="กรอกเรื่องที่ท่านต้องการให้ปรับปรุงแก้ไข"  onChange={e => {
                             // setIsCode(false)
                             setFormData({ ...formData, change_text: e.target.value })
 
