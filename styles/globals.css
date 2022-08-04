@@ -14,3 +14,24 @@ a {
 * {
   box-sizing: border-box;
 }
+
+
+.ant-select-selection-placeholder {
+  flex: 1 1;
+  overflow: hidden;
+  color: #bfbfbf;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  text-align: left;
+}
+
+.ant-select-selection-item {
+  flex: 1 1;
+  overflow: hidden;
+  font-weight: normal;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: left;
+
+}

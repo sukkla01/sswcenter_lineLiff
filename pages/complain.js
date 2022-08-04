@@ -1,39 +1,123 @@
 import React, { useEffect, useState } from 'react'
+import Swal from 'sweetalert2'
 import NavHeader from '../component/NavHeader'
-import { Button, DatePicker, ConfigProvider, Input, Rate } from 'antd';
+import { Button, DatePicker, ConfigProvider, Input, Rate, Select } from 'antd';
 import { useRouter } from 'next/router'
 import * as moment from 'moment';
 import 'moment/locale/th';
 moment.locale('th')
 import th_TH from 'antd/lib/locale/th_TH';
-
 import axios from 'axios'
 import config from '../config'
 
 const { TextArea } = Input;
+const { Option } = Select;
+
+const BASE_URL = config.BASE_URL
+const token = config.token
 
 function Complain() {
     // const router = useRouter()
-    // const [count, setCount] = useState(0)
+    const [datatype, setDatatype] = useState([])
     const [profile, setProfile] = useState({})
     const [alertM, setUAlertm] = useState("");
     // const [status, setStatus] = useState("N");
     // const [isLoading, setIsLoading] = useState(true);
     const [formData, setFormData] = useState(
         {
+            user_id: '',
+            date_service: '',
             dept: '',
+            type: '',
+            tname: '',
             tel: '',
             rate: 1,
-            like_text: ''
+            like_text: '',
+            change_text: '',
+            ok: false
+        })
+
+    useEffect(() => {
+        getTypeUser()
+        async function getData() {
+            const liff = (await import('@line/liff')).default
+            await liff.ready
+            const profile = await liff.getProfile()
+            setProfile(profile)
+            setFormData({ ...formData, user_id: profile.userId })
+
+
+
+        }
+        // getData()
+
+    }, [])
+
+    const getTypeUser = async () => {
+        try {
+            let res = await axios.get(`${BASE_URL}/get-user-type`, { headers: { "token": token } })
+            setDatatype(res.data)
+            console.log(res.data)
+
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    const onChangeDate = (date, dateString) => {
+        console.log(date, dateString);
+        setFormData({ ...formData, date_service: dateString })
+    };
+
+    const onChangeType = (value) => {
+        console.log(`selected ${value}`);
+        setFormData({ ...formData, type: value })
+
+    };
+    const submit = async () => {
+
+
+        Swal.fire({
+            title: 'คุณต้องการส่งรายการใช่หรือไม่ ?',
+            // text: "คุณจะไม่สามารถย้อนกลับได้หากกดยืนยัน!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'ยกเลิก',
+            confirmButtonText: 'ใช่'
+        }).then(async (result) => {
+            // console.log(profile.username)
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'ส่งเรียบร้อย!',
+                    '',
+                    'success'
+                )
+
+                // console.log('del : ' + profile.username + ' : ' + e)
+
+                try {
+                    let res = await axios.post(`${BASE_URL}/add-complain`, formData, { headers: { "token": token } })
+                    console.log(res.data)
+                    // router.push('/success')
+                } catch (error) {
+                    alert(error)
+                }
+
+
+
+            }
         })
 
 
-    const onChange = (date, dateString) => {
-        console.log(date, dateString);
-    };
-    const submit = async () => {
-        // e.preventDefault()
 
+
+
+
+        // e.preventDefault()
+        // console.log(formData)
         // let data = {
         //     cid: formData.cid,
         //     tel: formData.tel,
@@ -45,22 +129,6 @@ function Complain() {
         //     setUAlertm('กรุณากรอกข้อมูลให้ครบ')
         // } else {
 
-        //     try {
-        //         let res = await axios.get(`${BASE_URL}/get-hn/${formData.cid}`, { headers: { "token": token } })
-        //         if (res.data.length == 0) {
-        //             setUAlertm('คุณยังไม่เคยมาโรงพยาบาลกรุณาติดต่อห้องบัตร')
-        //         } else {
-        //             try {
-        //                 let res = await axios.post(`${BASE_URL}/add-register`, data, { headers: { "token": token } })
-        //                 console.log(res.data)
-        //                 router.push('/success')
-        //             } catch (error) {
-        //                 alert(error)
-        //             }
-        //         }
-        //     } catch (error) {
-        //         alert(error)
-        //     }
 
 
 
@@ -71,9 +139,12 @@ function Complain() {
         // }
     }
 
+    const agree = (value) => {
+        setFormData({ ...formData, ok: value })
+    }
 
     return (
-        <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "left" }}>
             <NavHeader title='ร้องเรียน/เสนอแนะ' />
             <div style={{ paddingTop: '20%', textAlign: 'center' }}>
                 <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 310, borderRadius: 15 }}>
@@ -85,7 +156,7 @@ function Complain() {
                             <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
                                 <div className="form-group" style={{ marginTop: 10 }}>
                                     <ConfigProvider locale={th_TH}>
-                                        <DatePicker style={{ width: '100%' }} onChange={onChange} size='medium' placeholder='วันที่เกิดเหตุ' />
+                                        <DatePicker style={{ width: '100%' }} onChange={onChangeDate} size='medium' placeholder='วันที่เกิดเหตุ' />
                                     </ConfigProvider>
                                 </div>
                                 <div className="form-group" style={{ marginTop: 15 }}>
@@ -99,9 +170,35 @@ function Complain() {
 
                                 </div>
                                 <div className="form-group" style={{ marginTop: 15 }}>
-                                    <Input placeholder="ประเภทผู้แสดงความคิดเห็น" value={formData.dept} onChange={e => {
+                                    {/* <Input placeholder="ประเภทผู้แสดงความคิดเห็น" value={formData.dept} onChange={e => {
                                         // setIsCode(false)
                                         setFormData({ ...formData, dept: e.target.value })
+
+                                    }}
+
+                                    /> */}
+                                    <Select
+                                        showSearch
+                                        placeholder="ประเภทผู้แสดงความคิดเห็น"
+                                        optionFilterProp="children"
+                                        onChange={onChangeType}
+                                        // onSearch={onSearch}
+                                        // filterOption={(input, option) =>
+                                        //     (option!.children).toLowerCase().includes(input.toLowerCase())
+                                        // }
+                                        style={{ width: '100%' }}
+                                    >
+                                        {datatype.map((item, i) => {
+
+                                            return <Option value={item.id}>{item.name}</Option>
+                                        })}
+                                    </Select>
+
+                                </div>
+                                <div className="form-group" style={{ marginTop: 15 }}>
+                                    <Input placeholder="ชื่อ-สกุล" value={formData.tname} onChange={e => {
+                                        // setIsCode(false)
+                                        setFormData({ ...formData, tname: e.target.value })
 
                                     }}
 
@@ -109,19 +206,9 @@ function Complain() {
 
                                 </div>
                                 <div className="form-group" style={{ marginTop: 15 }}>
-                                    <Input placeholder="ชื่อ-สกุล" value={formData.dept} onChange={e => {
+                                    <Input placeholder="เบอร์โทร" value={formData.tel} onChange={e => {
                                         // setIsCode(false)
-                                        setFormData({ ...formData, dept: e.target.value })
-
-                                    }}
-
-                                    />
-
-                                </div>
-                                <div className="form-group" style={{ marginTop: 15 }}>
-                                    <Input placeholder="เบอร์โทร" value={formData.dept} onChange={e => {
-                                        // setIsCode(false)
-                                        setFormData({ ...formData, dept: e.target.value })
+                                        setFormData({ ...formData, tel: e.target.value })
 
                                     }}
 
@@ -131,15 +218,15 @@ function Complain() {
 
                             </div>
                         </form>
-                        <p style={{ color: 'red' }}>{alertM}</p>
+                        {/* <p style={{ color: 'red' }}>{alertM}</p> */}
 
 
                     </div>
                 </div>
 
-                <div style={{textAlign: 'left', backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 100, borderRadius: 15, marginTop: 10 }}>
+                <div style={{ textAlign: 'left', backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 100, borderRadius: 15, marginTop: 10 }}>
                     <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p>ระดับความพึงพอใจในภาพรวม</p></div>
-                    <Rate count={5} value={formData.rate} style={{ fontSize: 28,marginTop: -15, marginLeft: 20}} onChange={e => {
+                    <Rate count={5} value={formData.rate} style={{ fontSize: 28, marginTop: -15, marginLeft: 20 }} onChange={e => {
                         // setIsCode(false)
                         setFormData({ ...formData, rate: e })
 
@@ -149,14 +236,22 @@ function Complain() {
                 <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 200, borderRadius: 15, marginTop: 10 }}>
                     <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p>เรื่องชื่นชม</p></div>
                     <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
-                        <TextArea rows={4} placeholder="maxLength is 6" maxLength={6} />
+                        <TextArea value={formData.like_text} rows={4} placeholder="กรอกเรื่องชื่นชม" maxLength={6} onChange={e => {
+                            // setIsCode(false)
+                            setFormData({ ...formData, like_text: e.target.value })
+
+                        }} />
                     </div>
                 </div>
 
                 <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 200, borderRadius: 15, marginTop: 10 }}>
                     <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p>เรื่องที่ท่านต้องการให้ปรับปรุงแก้ไข</p></div>
                     <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
-                        <TextArea rows={4} placeholder="maxLength is 6" maxLength={6} />
+                        <TextArea value={formData.change_text} rows={4} placeholder="กรอกเรื่องที่ท่านต้องการให้ปรับปรุงแก้ไข" maxLength={6} onChange={e => {
+                            // setIsCode(false)
+                            setFormData({ ...formData, change_text: e.target.value })
+
+                        }} />
                     </div>
                 </div>
 
@@ -165,12 +260,12 @@ function Complain() {
                     <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
                         <div className='row mt-4' >
                             <div className='col-6'>
-                                <Button type="dashed" primary block>
+                                <Button type={formData.ok ? 'primary' : "dashed"} primary block onClick={() => agree(true)}>
                                     ยินดีให้ความร่วมมือ
                                 </Button>
                             </div>
                             <div className='col-6'>
-                                <Button type="dashed" danger block>
+                                <Button type={!formData.ok ? 'primary' : "dashed"} danger block onClick={() => agree(false)}>
                                     ไม่ยินดีให้ความร่วมมือ
                                 </Button>
                             </div>
@@ -181,10 +276,13 @@ function Complain() {
                     </div>
                 </div>
 
-                <div style={{ marginTop: 50, marginLeft: 20, marginRight: 20, marginBottom: 100 }} >
-                    <Button type={profile != {} ? "primary" : "default"} shape="round" block size={'large'} onClick={submit} >
+                <div style={{ marginTop: 30, marginLeft: 10, marginRight: 10, marginBottom: 100 }} >
+                    <Button type={profile != {} ? "primary" : "default"} block size={'large'} onClick={submit}  >
                         ส่ง
                     </Button>
+                </div>
+                <div style={{ marginTop: 30, marginLeft: 20, marginRight: 20, marginBottom: 100 }} >
+
                 </div>
             </div>
         </div>
