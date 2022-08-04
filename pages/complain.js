@@ -90,22 +90,28 @@ function Complain() {
         }).then(async (result) => {
             // console.log(profile.username)
             if (result.isConfirmed) {
-                Swal.fire(
-                    'ส่งเรียบร้อย!',
-                    '',
-                    'success'
-                )
-
-                // console.log('del : ' + profile.username + ' : ' + e)
 
                 try {
                     let res = await axios.post(`${BASE_URL}/add-complain`, formData, { headers: { "token": token } })
                     console.log(res.data)
-                    const liff = (await import('@line/liff')).default
-                    await liff.ready
-                    liff.closeWindow()
+                    let isOK = await Swal.fire(
+                        'ส่งเรียบร้อย!',
+                        '',
+                        'success'
+                    )
+                    if (isOK.isConfirmed) {
+                        console.log(isOK)
+                        const liff = (await import('@line/liff')).default
+                        await liff.ready
+                        liff.closeWindow()
+                    }
+
                 } catch (error) {
-                    alert(error)
+                    let isOK = await Swal.fire(
+                        'ข้อมูลผิดหลาด!',
+                        '',
+                        'error'
+                    )
                 }
 
 
@@ -238,7 +244,7 @@ function Complain() {
                 <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 200, borderRadius: 15, marginTop: 10 }}>
                     <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p>เรื่องชื่นชม</p></div>
                     <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
-                        <TextArea value={formData.like_text} rows={4} placeholder="กรอกเรื่องชื่นชม"  onChange={e => {
+                        <TextArea value={formData.like_text} rows={4} placeholder="กรอกเรื่องชื่นชม" onChange={e => {
                             // setIsCode(false)
                             setFormData({ ...formData, like_text: e.target.value })
 
@@ -249,7 +255,7 @@ function Complain() {
                 <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 200, borderRadius: 15, marginTop: 10 }}>
                     <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p>เรื่องที่ท่านต้องการให้ปรับปรุงแก้ไข</p></div>
                     <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
-                        <TextArea value={formData.change_text} rows={4} placeholder="กรอกเรื่องที่ท่านต้องการให้ปรับปรุงแก้ไข"  onChange={e => {
+                        <TextArea value={formData.change_text} rows={4} placeholder="กรอกเรื่องที่ท่านต้องการให้ปรับปรุงแก้ไข" onChange={e => {
                             // setIsCode(false)
                             setFormData({ ...formData, change_text: e.target.value })
 
