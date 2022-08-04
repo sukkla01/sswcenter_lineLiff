@@ -49,7 +49,7 @@ function Complain() {
 
 
         }
-        // getData()
+        getData()
 
     }, [])
 
