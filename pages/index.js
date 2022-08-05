@@ -22,7 +22,6 @@ export default function Home() {
     <>
       <NavHeader />
       <div className='container' style={{ marginTop: 60 }}>
-        <p>page : {alertM}</p>
         <LoadingSkeleton />
         <LoadingSkeleton />
         <LoadingSkeleton />
