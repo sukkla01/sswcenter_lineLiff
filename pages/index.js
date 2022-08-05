@@ -1,8 +1,7 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
+import NavHeader from '../component/NavHeader'
+import LoadingSkeleton from '../component/LoadingSkeleton'
 
 
 export default function Home() {
@@ -13,13 +12,18 @@ export default function Home() {
     const params = new URLSearchParams(queryString);
     let tkey = params.get('key');
     // alert(path)
-    tkey  =  tkey == null ? '': tkey
+    tkey = tkey == null ? '' : tkey
     router.push(`/${tkey}`)
 
   }, [])
   return (
-    <div>
-      test index
-    </div>
+    <>
+      <NavHeader />
+      <div className='container' style={{ marginTop: 60 }}>
+        <LoadingSkeleton />
+        <LoadingSkeleton />
+        <LoadingSkeleton />
+      </div>
+    </>
   )
 }
