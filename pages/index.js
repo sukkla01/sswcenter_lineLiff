@@ -13,9 +13,9 @@ export default function Home() {
     const params = new URLSearchParams(queryString);
     let tkey = params.get('key');
     // alert(path)
-    tkey = tkey == null ? '' : tkey
-    setUAlertm(tkey)
-    router.push(`/${tkey}`)
+    tkey == null ? '' : router.push(`/${tkey}`)
+    // setUAlertm(tkey)
+    // router.push(`/${tkey}`)
 
   }, [])
   return (
