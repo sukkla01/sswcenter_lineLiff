@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import NavHeader from '../component/NavHeader'
 import LoadingSkeleton from '../component/LoadingSkeleton'
 
