@@ -103,8 +103,8 @@ function Complain() {
                         console.log(isOK)
                         const liff = (await import('@line/liff')).default
                         await liff.ready
-                        await axios.get(`https://sw-center-line.diligentsoftinter.com/rely_m/${formData.user_id}`)
                         liff.closeWindow()
+                        await axios.get(`https://sw-center-line.diligentsoftinter.com/rely_m/${formData.user_id}`)
                     }
 
                 } catch (error) {
