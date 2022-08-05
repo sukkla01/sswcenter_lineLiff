@@ -35,3 +35,7 @@ a {
   text-align: left;
 
 }
+
+.main-wrapper {
+  height: 90vh;  
+}
