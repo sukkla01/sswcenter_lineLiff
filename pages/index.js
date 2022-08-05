@@ -22,7 +22,7 @@ export default function Home() {
     <>
       <NavHeader />
       <div className='container' style={{ marginTop: 60 }}>
-        <p>page : {tkey}</p>
+        <p>page : {alertM}</p>
         <LoadingSkeleton />
         <LoadingSkeleton />
         <LoadingSkeleton />
