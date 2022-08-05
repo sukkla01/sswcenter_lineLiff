@@ -6,6 +6,7 @@ import LoadingSkeleton from '../component/LoadingSkeleton'
 
 export default function Home() {
   const router = useRouter()
+  const [alertM, setUAlertm] = useState("");
 
   useEffect(() => {
     const queryString = decodeURIComponent(window.location.search).replace("?liff.state=", "");
@@ -13,6 +14,7 @@ export default function Home() {
     let tkey = params.get('key');
     // alert(path)
     tkey = tkey == null ? '' : tkey
+    setUAlertm(tkey)
     router.push(`/${tkey}`)
 
   }, [])
@@ -20,6 +22,7 @@ export default function Home() {
     <>
       <NavHeader />
       <div className='container' style={{ marginTop: 60 }}>
+        <p>page : {tkey}</p>
         <LoadingSkeleton />
         <LoadingSkeleton />
         <LoadingSkeleton />
