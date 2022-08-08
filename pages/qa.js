@@ -1,16 +1,48 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import NavHeader from '../component/NavHeader'
-import { Collapse,Input } from 'antd';
+import { Collapse, Input, Typography } from 'antd';
+import axios from 'axios'
+import config from '../config'
 
 const { Panel } = Collapse;
 const { Search } = Input;
+const { Paragraph, Text } = Typography;
 
 const text = `คำตอบ :   `;
 
-const Qa = () => {
+const BASE_URL = config.BASE_URL
+const token = config.token
 
-    const onSearch = (value) =>{
-        console.log(value)
+const Qa = () => {
+    const [data, setData] = useState([])
+    const [ellipsis, setEllipsis] = useState(true);
+
+    useEffect(() => {
+        getTypeUser()
+
+    }, [])
+
+    const getTypeUser = async () => {
+        try {
+            let res = await axios.get(`${BASE_URL}/get-qa-all`, { headers: { "token": token } })
+            setData(res.data)
+            console.log(res.data)
+
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    const onSearch = async (value) => {
+        try {
+            let res = await axios.get(`${BASE_URL}/get-qa-search/${value}`, { headers: { "token": token } })
+            setData(res.data)
+            console.log(res.data)
+
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     return (
@@ -21,18 +53,22 @@ const Qa = () => {
                     <div style={{ margin: 10 }}>
                         <p style={{ paddingTop: 10, paddingLeft: 5 }}>ถาม-ตอบ (Q&A)</p>
                         <Search placeholder="ค้นหา" onSearch={onSearch} style={{ width: '100%' }} />
-                        <Collapse   style={{ marginTop:10 }}>
-                            <Panel header="คำถามที่ 1" key="1">
-                                <p>{text}</p>
-                                <p>{text}</p>
-                            </Panel>
-                            <Panel header="คำถามที่ 2" key="2">
-                                <p>{text}</p>
-                            </Panel>
-                            <Panel header="คำถามที่  3" key="3">
-                                <p>{text}</p>
-                            </Panel>
-                        </Collapse>
+                        {data.length > 0 ?
+                         
+                        <Collapse style={{ marginTop: 10 }} defaultActiveKey={['0']} >
+                            {data.map((item, i) => {
+                                return <Panel header={ item.qa_question.length > 50 ? 'คำถาม : ' + item.qa_question.substring(0,30) + '. . .' : 'คำถาม : ' + item.qa_question} key={i}>
+                                    <p><b>คำถาม :</b><Paragraph ellipsis={ellipsis ? { rows: 2, expandable: true, symbol: 'ดูเพิ่ม' } : false}>
+                                        {item.qa_question}
+                                    </Paragraph></p>
+                                    <p><b>คำตอบ  :</b> <Paragraph ellipsis={ellipsis ? { rows: 2, expandable: true, symbol: 'ดูเพิ่ม' } : false}>
+                                        {item.qa_answer}
+                                    </Paragraph> </p>
+                                </Panel>
+                            })}
+
+
+                        </Collapse> : <div className='text-center' style={{ marginTop : 20 }}>ไม่พบข้อมูล</div>  }
                     </div>
                 </div>
             </div>
