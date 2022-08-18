@@ -51,19 +51,19 @@ const Qa = () => {
             <div style={{ paddingTop: '15%' }}>
                 <div className='main-wrapper' style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, borderRadius: 15 }}>
                     <div style={{ margin: 10 }}>
-                        <p style={{ paddingTop: 10, paddingLeft: 5 }}>ถาม-ตอบ (Q&A)</p>
+                        <div style={{ paddingTop: 10, paddingLeft: 5 }}>ถาม-ตอบ (Q&A)</div>
                         <Search placeholder="ค้นหา" onSearch={onSearch} style={{ width: '100%' }} />
                         {data.length > 0 ?
                          
                         <Collapse style={{ marginTop: 10 }} defaultActiveKey={['0']} >
                             {data.map((item, i) => {
                                 return <Panel header={ item.qa_question.length > 50 ? 'คำถาม : ' + item.qa_question.substring(0,30) + '. . .' : 'คำถาม : ' + item.qa_question} key={i}>
-                                    <p><b>คำถาม :</b><Paragraph ellipsis={ellipsis ? { rows: 2, expandable: true, symbol: 'ดูเพิ่ม' } : false}>
+                                    <div><b>คำถาม :</b><Paragraph ellipsis={ellipsis ? { rows: 2, expandable: true, symbol: 'ดูเพิ่ม' } : false}>
                                         {item.qa_question}
-                                    </Paragraph></p>
-                                    <p><b>คำตอบ  :</b> <Paragraph ellipsis={ellipsis ? { rows: 2, expandable: true, symbol: 'ดูเพิ่ม' } : false}>
+                                    </Paragraph></div>
+                                    <div><b>คำตอบ  :</b> <Paragraph ellipsis={ellipsis ? { rows: 2, expandable: true, symbol: 'ดูเพิ่ม' } : false}>
                                         {item.qa_answer}
-                                    </Paragraph> </p>
+                                    </Paragraph> </div>
                                 </Panel>
                             })}
 
