@@ -9,6 +9,7 @@ const Test = () => {
     const [profile, setProfile] = useState({})
     const [socket, setSocket] = useState(io(`https://sw-center-api.diligentsoftinter.com`))
     const [isConnected, setIsConnected] = useState();
+    const [username, setUsername] = useState('');
     useEffect(() => {
         socket.on('connect', () => {
             setIsConnected(true);
@@ -21,6 +22,7 @@ const Test = () => {
 
         socket.on('pong', (username) => {
             console.log(username)
+            setUsername(username)
         });
 
         return () => {
@@ -40,6 +42,7 @@ const Test = () => {
             <p>SubID : {profile.userId}</p>
             { }
             <button onClick={sendSocket}>test</button>
+            <h2>{username}</h2>
         </div>
     )
 }
