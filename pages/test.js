@@ -49,16 +49,13 @@ const Test = () => {
             />
             <p>Last pong: {text}</p>
             <button onClick={sendPing}>Send ping</button> */}
-            <NavHeader />
+            <NavHeader  title='Chat'/>
             <div className="page-content page-container" id="page-content" >
-                <div className="row container d-flex justify-content-center" style={{ paddingTop: 80 }}>
+                <div className="justify-content-center" style={{ paddingTop: '10%' }}>
                     <div className="col-md-6">
                         <div className="card card-bordered">
-                            <div className="card-header">
-                                <h4 className="card-title"><strong>Chat</strong></h4>
-                                {/* <a className="btn btn-xs btn-secondary" href="#" data-abc="true">Let's Chat App</a> */}
-                            </div>
-                            <div className="ps-container ps-theme-default ps-active-y" id="chat-content" style={{ overflowY: 'scroll !important', height: '100vh !important' }}>
+                            
+                            <div className="ps-container ps-theme-default ps-active-y" id="chat-content" style={{ overflowY: 'scroll !important', height: '500vh !important' }}>
                                 <div className="media media-chat">
                                     <img className="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="..." />
                                     <div className="media-body">
