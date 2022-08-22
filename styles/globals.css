@@ -128,7 +128,7 @@ a {
   background-color: rgba(0, 0, 0, 0.3) !important;
   border: 0 !important;
   color: white !important;
-  height: 60px !important;
+  /* height: 60px !important; */
   overflow-y: auto;
 }
 
@@ -151,6 +151,7 @@ a {
   border: 0 !important;
   color: white !important;
   cursor: pointer;
+  height: 40px;
 }
 
 .search_btn {

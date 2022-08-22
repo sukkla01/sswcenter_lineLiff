@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import io from 'socket.io-client';
 import NavHeader from '../component/NavHeader';
 import config from '../config'
+import { SendOutlined } from '@ant-design/icons';
 
 const BASE_URL = config.BASE_URL
 
@@ -49,8 +50,8 @@ const Test = () => {
             />
             <p>Last pong: {text}</p>
             <button onClick={sendPing}>Send ping</button> */}
-            <NavHeader title='Chat' />
-            <div className="h-100 mt-5">
+            {/* <NavHeader title='Chat' /> */}
+            <div className="h-100 ">
                 <div className="justify-content-center h-100">
 
 
@@ -62,7 +63,7 @@ const Test = () => {
                                     <span className="online_icon" />
                                 </div>
                                 <div className="user_info">
-                                    <span>Chat with Khalid</span>
+                                    <span>Chat ทดสอบ</span>
                                     <p>1767 Messages</p>
                                 </div>
                                 <div className="video_cam">
@@ -147,12 +148,12 @@ const Test = () => {
                         </div>
                         <div className="card-footer">
                             <div className="input-group">
-                                <div className="input-group-append">
+                                {/* <div className="input-group-append">
                                     <span className="input-group-text attach_btn"><i className="fas fa-paperclip" /></span>
-                                </div>
-                                <textarea name className="form-control type_msg" placeholder="Type your message..." defaultValue={""} />
+                                </div> */}
+                                <input  className="form-control type_msg" placeholder="Type your message..."  />
                                 <div className="input-group-append">
-                                    <span className="input-group-text send_btn"><i className="fas fa-location-arrow" /></span>
+                                    <span className="input-group-text send_btn"><SendOutlined /></span>
                                 </div>
                             </div>
                         </div>
