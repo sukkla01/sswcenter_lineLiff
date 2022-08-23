@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 import NavHeader from '../component/NavHeader'
-import { Button, DatePicker, ConfigProvider, Input, Rate, Select, Upload, Modal } from 'antd';
+import { Button, DatePicker, ConfigProvider, Input, Rate, Select, Upload, Modal,Form } from 'antd';
 import { useRouter } from 'next/router'
 import * as moment from 'moment';
 import 'moment/locale/th';
@@ -79,7 +79,8 @@ function Complain() {
         });
 
     const handleChange = ({ fileList: newFileList }) => {
-
+        // info.file.status
+        console.log(newFileList)
         setFileList(newFileList);
     };
 
@@ -103,6 +104,11 @@ function Complain() {
     );
 
 
+    const handleFormFinish = (values) => {
+        console.log(values)
+        // i just want to get simple result:
+        // [{ apiVersion: '1.0', data: {...} }]
+    }
     // end upload
 
     const onChangeDate = (date, dateString) => {
@@ -307,33 +313,38 @@ function Complain() {
 
                     }} />
                 </div>
-                <div style={{ textAlign: 'left', backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 120, borderRadius: 15, marginTop: 10 }}>
-                    <div className='row'>
+                <Form
+                   action=''
+                    layout="vertical"
+                    onFinish={handleFormFinish}
+                >
+                    <div style={{ textAlign: 'left', backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 120, borderRadius: 15, marginTop: 10 }}>
+                        <div className='row'>
 
-                        <div className='col-9'>
-                            <div style={{ paddingTop: 10, paddingLeft: 20 }}>
-                                <Upload
-                                    // action="done"
-                                    listType="picture-card"
-                                    fileList={fileList}
-                                    onPreview={handlePreview}
-                                    onChange={handleChange}
+                            <div className='col-9'>
+                                <div style={{ paddingTop: 10, paddingLeft: 20 }}>
+                                    <Upload
+                                        // action={dummyRequest}
+                                        listType="picture-card"
+                                        fileList={fileList}
+                                        onPreview={handlePreview}
+                                        onChange={handleChange}
 
-                                >
-                                    {fileList.length >= 1 ? null : uploadButton}
-                                </Upload>
+                                    >
+                                        {fileList.length >= 1 ? null : uploadButton}
+                                    </Upload>
+                                </div>
                             </div>
+
                         </div>
 
+
+
+                        <Modal visible={previewVisible} footer={null} onCancel={handleCancel} >
+                            <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                        </Modal>
                     </div>
-
-
-
-                    <Modal visible={previewVisible} footer={null} onCancel={handleCancel} >
-                        <img alt="example" style={{ width: '100%' }} src={previewImage} />
-                    </Modal>
-                </div>
-
+                </Form>
                 <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 150, borderRadius: 15, marginTop: 10 }}>
                     <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; หากโรงพยาบาลศรีสังวรสุโขทัย เรียนเชิญท่านเข้าร่วมประชุม/โทรศัพท์ไปเพื่อสอบถามและเสนอแนะแนวทางการแก้ไขปัญหาของโรงพยาบาล</p></div>
                     <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
