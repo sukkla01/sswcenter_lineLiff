@@ -35,7 +35,8 @@ function Complain() {
             rate: 1,
             like_text: '',
             change_text: '',
-            ok: false
+            ok: false,
+            attackFlie : ''
         })
     const [fileList, setFileList] = useState([]);
     const [previewVisible, setPreviewVisible] = useState(false);
@@ -78,10 +79,14 @@ function Complain() {
             reader.onerror = error => reject(error);
         });
 
-    const handleChange = ({ fileList: newFileList }) => {
+    const handleChange = async ({ file, fileList }) => {
         // info.file.status
-        console.log(newFileList)
-        setFileList(newFileList);
+        // console.log(newFileList)
+        setFileList(fileList);
+
+       let image_ =   await getBase64(file.originFileObj)
+       setFormData({...formData,attackFlie : image_})
+       console.log(image_)
     };
 
     const handleCancel = () => setPreviewVisible(false);
