@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 import NavHeader from '../component/NavHeader'
-import { Button, DatePicker, ConfigProvider, Input, Rate, Select } from 'antd';
+import { Button, DatePicker, ConfigProvider, Input, Rate, Select, Upload, Modal } from 'antd';
 import { useRouter } from 'next/router'
 import * as moment from 'moment';
 import 'moment/locale/th';
@@ -9,6 +9,7 @@ moment.locale('th')
 import th_TH from 'antd/lib/locale/th_TH';
 import axios from 'axios'
 import config from '../config'
+import { PlusOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -36,6 +37,9 @@ function Complain() {
             change_text: '',
             ok: false
         })
+    const [fileList, setFileList] = useState([]);
+    const [previewVisible, setPreviewVisible] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
 
     useEffect(() => {
         getTypeUser()
@@ -49,7 +53,7 @@ function Complain() {
 
 
         }
-        getData()
+        // getData()
 
     }, [])
 
@@ -64,6 +68,42 @@ function Complain() {
         }
 
     }
+
+    //upload file
+    const getBase64 = (file) =>
+        new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+
+    const handleChange = ({ fileList: newFileList }) => {
+
+        setFileList(newFileList);
+    };
+
+    const handleCancel = () => setPreviewVisible(false);
+    const handlePreview = async (file) => {
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
+        }
+
+        setPreviewImage(file.url || (file.preview));
+        setPreviewVisible(true);
+
+    };
+
+    const uploadButton = (
+        <div>
+            <PlusOutlined />
+            <div style={{ marginTop: 8 }}>เลือกรูปภาพ</div>
+            <div>(แนบไฟล์)</div>
+        </div>
+    );
+
+
+    // end upload
 
     const onChangeDate = (date, dateString) => {
         console.log(date, dateString);
@@ -157,7 +197,7 @@ function Complain() {
         <div style={{ textAlign: "left" }}>
             <NavHeader title='ร้องเรียน/เสนอแนะ' />
             <div style={{ paddingTop: '18%', textAlign: 'center' }}>
-                <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 210, borderRadius: 15 }}>
+                <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 300, borderRadius: 15 }}>
 
                     <div className='text-center' style={{ marginTop: 0 }}>
                         {/* <h4 style={{ color: '#3f51b5', paddingTop: 20 }}>ร้องเรียน/เสนอแนะ</h4> */}
@@ -179,6 +219,27 @@ function Complain() {
                                     />
 
                                 </div>
+                                <div className="form-group" style={{ marginTop: 15 }}>
+                                    <Input placeholder="ชื่อ-สกุล ผู้แจ้ง" value={formData.tname} onChange={e => {
+                                        // setIsCode(false)
+                                        setFormData({ ...formData, tname: e.target.value })
+
+                                    }}
+
+                                    />
+
+                                </div>
+                                <div className="form-group" style={{ marginTop: 15 }}>
+                                    <Input placeholder="เบอร์โทร ผู้แจ้ง" value={formData.tel} onChange={e => {
+                                        // setIsCode(false)
+                                        setFormData({ ...formData, tel: e.target.value })
+
+                                    }}
+
+                                    />
+
+                                </div>
+
                                 <div className="form-group" style={{ marginTop: 15 }}>
                                     {/* <Input placeholder="ประเภทผู้แสดงความคิดเห็น" value={formData.dept} onChange={e => {
                                         // setIsCode(false)
@@ -215,7 +276,7 @@ function Complain() {
                     </div>
                 </div>
 
-               
+
 
                 <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 200, borderRadius: 15, marginTop: 10 }}>
                     <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p>เรื่องชื่นชม</p></div>
@@ -246,8 +307,34 @@ function Complain() {
 
                     }} />
                 </div>
+                <div style={{ textAlign: 'left', backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 120, borderRadius: 15, marginTop: 10 }}>
+                    <div className='row'>
 
-                <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 170, borderRadius: 15, marginTop: 10 }}>
+                        <div className='col-9'>
+                            <div style={{ paddingTop: 10, paddingLeft: 20 }}>
+                                <Upload
+                                    // action="done"
+                                    listType="picture-card"
+                                    fileList={fileList}
+                                    onPreview={handlePreview}
+                                    onChange={handleChange}
+
+                                >
+                                    {fileList.length >= 1 ? null : uploadButton}
+                                </Upload>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <Modal visible={previewVisible} footer={null} onCancel={handleCancel} >
+                        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                    </Modal>
+                </div>
+
+                <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 150, borderRadius: 15, marginTop: 10 }}>
                     <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; หากโรงพยาบาลศรีสังวรสุโขทัย เรียนเชิญท่านเข้าร่วมประชุม/โทรศัพท์ไปเพื่อสอบถามและเสนอแนะแนวทางการแก้ไขปัญหาของโรงพยาบาล</p></div>
                     <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
                         <div className='row mt-4' >
@@ -267,33 +354,11 @@ function Complain() {
 
                     </div>
                 </div>
-                {formData.ok ?
+                {/* {formData.ok ?
                     <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 150, borderRadius: 15, marginTop: 10 }}>
                         <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}></div>
-                        <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 0 }}>
-                            <div className="form-group" style={{ marginTop: 15 }}>
-                                <Input placeholder="ชื่อ-สกุล ผู้แจ้ง" value={formData.tname} onChange={e => {
-                                    // setIsCode(false)
-                                    setFormData({ ...formData, tname: e.target.value })
 
-                                }}
-
-                                />
-
-                            </div>
-                            <div className="form-group" style={{ marginTop: 15 }}>
-                                <Input placeholder="เบอร์โทร ผู้แจ้ง" value={formData.tel} onChange={e => {
-                                    // setIsCode(false)
-                                    setFormData({ ...formData, tel: e.target.value })
-
-                                }}
-
-                                />
-
-                            </div>
-
-                        </div>
-                    </div> : ''}
+                    </div> : ''} */}
 
                 <div style={{ marginTop: 30, marginLeft: 10, marginRight: 10, marginBottom: 10 }} >
                     <Button type={profile != {} ? "primary" : "default"} block size={'large'} onClick={submit}  >
