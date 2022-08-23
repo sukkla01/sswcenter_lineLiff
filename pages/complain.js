@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 import NavHeader from '../component/NavHeader'
-import { Button, DatePicker, ConfigProvider, Input, Rate, Select, Upload, Modal,Form } from 'antd';
+import { Button, DatePicker, ConfigProvider, Input, Rate, Select, Upload, Modal, Form } from 'antd';
 import { useRouter } from 'next/router'
 import * as moment from 'moment';
 import 'moment/locale/th';
@@ -36,7 +36,7 @@ function Complain() {
             like_text: '',
             change_text: '',
             ok: false,
-            attackFlie : ''
+            attackFlie: ''
         })
     const [fileList, setFileList] = useState([]);
     const [previewVisible, setPreviewVisible] = useState(false);
@@ -82,11 +82,19 @@ function Complain() {
     const handleChange = async ({ file, fileList }) => {
         // info.file.status
         // console.log(newFileList)
+        console.log(fileList)
         setFileList(fileList);
 
-       let image_ =   await getBase64(file.originFileObj)
-       setFormData({...formData,attackFlie : image_})
-       console.log(image_)
+        if (fileList.length > 0) {
+            let image_ = await getBase64(file.originFileObj)
+            setFormData({ ...formData, attackFlie: image_ })
+        } else {
+
+            setFormData({ ...formData, attackFlie: '' })
+        }
+
+
+        //    console.log(image_)
     };
 
     const handleCancel = () => setPreviewVisible(false);
@@ -99,6 +107,11 @@ function Complain() {
         setPreviewVisible(true);
 
     };
+
+    const onRemove = () => {
+        console.log('xx')
+        setFormData({ ...formData, attackFlie: '' })
+    }
 
     const uploadButton = (
         <div>
@@ -288,7 +301,7 @@ function Complain() {
                 </div>
 
 
-
+                {console.log(formData.attackFlie)}
                 <div style={{ backgroundColor: 'white', marginLeft: 10, marginRight: 10, height: 200, borderRadius: 15, marginTop: 10 }}>
                     <div style={{ textAlign: 'left', marginLeft: 20, paddingTop: 20 }}><p>เรื่องชื่นชม</p></div>
                     <div style={{ paddingLeft: 20, paddingRight: 20, marginTop: 10 }}>
@@ -319,7 +332,7 @@ function Complain() {
                     }} />
                 </div>
                 <Form
-                   action=''
+                    action=''
                     layout="vertical"
                     onFinish={handleFormFinish}
                 >
@@ -334,7 +347,7 @@ function Complain() {
                                         fileList={fileList}
                                         onPreview={handlePreview}
                                         onChange={handleChange}
-
+                                        onRemove={onRemove}
                                     >
                                         {fileList.length >= 1 ? null : uploadButton}
                                     </Upload>
