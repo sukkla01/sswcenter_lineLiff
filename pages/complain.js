@@ -54,7 +54,7 @@ function Complain() {
 
 
         }
-        // getData()
+        getData()
 
     }, [])
 
