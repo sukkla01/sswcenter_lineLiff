@@ -52,8 +52,8 @@ const Chat = () => {
             setIsConnected(false);
         });
 
-        socket.on('U563d0dcd3d957d9f69df41b3b27edd38', (data) => {
-            alert('user --- ' +userId)
+        socket.on(profile.userId, (data) => {
+            // alert('user --- ' +userId)
             getChat(userId)
         });
 
