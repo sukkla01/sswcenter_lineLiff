@@ -53,7 +53,7 @@ const Chat = () => {
         });
 
         socket.on(userId, (data) => {
-            alert('aaa -- ' +userId)
+            alert('user --- ' +userId)
             getChat(userId)
         });
 
