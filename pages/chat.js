@@ -44,10 +44,10 @@ const Chat = () => {
             socket.on('disconnect', () => {
                 setIsConnected(false);
             });
-            alert(profile.userId)
+            // alert(profile.userId)
             socket.on(profile.userId, (data) => {
                 // alert('user --- ' +userId)
-                getChat(userId)
+                getChat(profile.userId)
             });
     
             return () => {
