@@ -39,7 +39,7 @@ const Chat = () => {
 
 
         }
-        // getData()
+        getData()
 
         // getChat(userId)
 
