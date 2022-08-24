@@ -109,8 +109,8 @@ const Chat = () => {
                                 <span className="online_icon" />
                             </div>
                             <div className="user_info">
-                                <span>Chat ทดสอบ</span>
-                                <p>1767 Messages</p>
+                                <span>{profile.displayName}</span>
+                                {/* <p>1767 Messages</p> */}
                             </div>
                             <div className="video_cam">
                                 <span><i className="fas fa-video" /></span>
