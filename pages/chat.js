@@ -3,15 +3,19 @@ import io from 'socket.io-client';
 import NavHeader from '../component/NavHeader';
 import axios from 'axios'
 import config from '../config'
-import { SendOutlined } from '@ant-design/icons';
+import { SendOutlined, LoadingOutlined } from '@ant-design/icons';
+import ReactLoading from 'react-loading';
 
 const BASE_URL = config.BASE_URL
 const token = config.token
 const socket = io(BASE_URL);
 const i = 1
 
+
+
 const Chat = () => {
     const [isConnected, setIsConnected] = useState(socket.connected);
+    const [isLoading, setIsLoading] = useState(true);
     const [lastPong, setLastPong] = useState(null);
     const [text, setText] = useState('');
     const [userId, setUserId] = useState('');
@@ -63,6 +67,7 @@ const Chat = () => {
         try {
             let res = await axios.get(`${BASE_URL}/get-chat/${user_id}`, { headers: { "token": token } })
             setData(res.data)
+            setIsLoading(false)
             console.log(res.data)
 
         } catch (error) {
@@ -74,13 +79,13 @@ const Chat = () => {
 
     const onSend = async () => {
         let post = {
-            user_id : userId,
-            detail : detail,
-            staff : userId,
-            image : profile.pictureUrl
+            user_id: userId,
+            detail: detail,
+            staff: userId,
+            image: profile.pictureUrl
         }
         try {
-            let res = await axios.post(`${BASE_URL}/add-chat`,post, { headers: { "token": token } })
+            let res = await axios.post(`${BASE_URL}/add-chat`, post, { headers: { "token": token } })
             // setData(res.data)
             getChat(userId)
 
@@ -100,7 +105,6 @@ const Chat = () => {
         <div className="h-100 ">
             <div className="justify-content-center h-100">
 
-
                 <div className="card">
                     <div className="card-header msg_head">
                         <div className="d-flex bd-highlight">
@@ -109,25 +113,19 @@ const Chat = () => {
                                 <span className="online_icon" />
                             </div>
                             <div className="user_info">
-                                <span>{profile.displayName}</span>
+                                <span>ผู้ดูแลระบบ</span>
                                 {/* <p>1767 Messages</p> */}
                             </div>
-                            <div className="video_cam">
-                                <span><i className="fas fa-video" /></span>
-                                <span><i className="fas fa-phone" /></span>
-                            </div>
+                           
                         </div>
-                        <span id="action_menu_btn"><i className="fas fa-ellipsis-v" /></span>
-                        <div className="action_menu">
-                            <ul>
-                                <li><i className="fas fa-user-circle" /> View profile</li>
-                                <li><i className="fas fa-users" /> Add to close friends</li>
-                                <li><i className="fas fa-plus" /> Add to group</li>
-                                <li><i className="fas fa-ban" /> Block</li>
-                            </ul>
-                        </div>
+                       
                     </div>
                     <div className="card-body msg_card_body">
+                        <div className="d-flex justify-content-center">
+                            <ReactLoading type='spinningBubbles' color='#ffffff' height={'10%'} width={'10%'} />
+                        </div>
+
+
 
                         {data.map((item, i) => {
                             let type_class = item.type == 'admin' ?
@@ -181,15 +179,15 @@ const Chat = () => {
                             {/* <div className="input-group-append">
                             <span className="input-group-text attach_btn"><i className="fas fa-paperclip" /></span>
                         </div> */}
-                            <input className="form-control type_msg" placeholder="พิมพ์ข้อความ..." 
-                            value={detail} onChange={e => {
-                                // setIsCode(false)
-                                setDetail(e.target.value)
+                            <input className="form-control type_msg" placeholder="พิมพ์ข้อความ..."
+                                value={detail} onChange={e => {
+                                    // setIsCode(false)
+                                    setDetail(e.target.value)
 
-                            }}
+                                }}
                             />
                             <div className="input-group-append">
-                                <span className="input-group-text send_btn"><SendOutlined  onClick={onSend} /></span>
+                                <span className="input-group-text send_btn"><SendOutlined onClick={onSend} /></span>
                             </div>
                         </div>
                     </div>
