@@ -52,7 +52,7 @@ const Chat = () => {
             setIsConnected(false);
         });
 
-        socket.on(userId, (data) => {
+        socket.on('ms'+userId, (data) => {
             alert('user --- ' +userId)
             getChat(userId)
         });
@@ -100,13 +100,14 @@ const Chat = () => {
 
     }
 
+    
     const sendPing = () => {
 
         socket.emit('message', userId);
     }
     return (
         <div className="h-100 ">
-            <div className="justify-content-center h-100">
+            <div className="justify-content-center h-100"> 
 
                 <div className="card">
                     <div className="card-header msg_head">
