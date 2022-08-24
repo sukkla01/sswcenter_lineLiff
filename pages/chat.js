@@ -37,6 +37,24 @@ const Chat = () => {
             getChat(profile.userId)
 
 
+            socket.on('connect', () => {
+                setIsConnected(true);
+            });
+    
+            socket.on('disconnect', () => {
+                setIsConnected(false);
+            });
+            alert(profile.userId)
+            socket.on(profile.userId, (data) => {
+                // alert('user --- ' +userId)
+                getChat(userId)
+            });
+    
+            return () => {
+                socket.off('connect');
+                socket.off('disconnect');
+                socket.off('pong');
+            };
 
         }
         await getData()
@@ -44,24 +62,7 @@ const Chat = () => {
         // getChat(userId)
 
 
-        socket.on('connect', () => {
-            setIsConnected(true);
-        });
-
-        socket.on('disconnect', () => {
-            setIsConnected(false);
-        });
-        alert(profile.userId)
-        socket.on(profile.userId, (data) => {
-            // alert('user --- ' +userId)
-            getChat(userId)
-        });
-
-        return () => {
-            socket.off('connect');
-            socket.off('disconnect');
-            socket.off('pong');
-        };
+       
     }, []);
 
     const getChat = async (user_id) => {
