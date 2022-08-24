@@ -122,7 +122,7 @@ const Chat = () => {
                     </div>
                     <div className="card-body msg_card_body">
 
-                        {isConnected ? 
+                        {isLoading ? 
                         <div className="d-flex justify-content-center">
                             <ReactLoading type='spinningBubbles' color='#ffffff' height={'10%'} width={'10%'} />
                         </div> : <div></div> }
