@@ -52,8 +52,8 @@ const Chat = () => {
             setIsConnected(false);
         });
 
-        socket.on('message', (data) => {
-            setText(data);
+        socket.on(userId, (data) => {
+            getChat(userId)
         });
 
         return () => {
@@ -88,7 +88,7 @@ const Chat = () => {
             let res = await axios.post(`${BASE_URL}/add-chat`, post, { headers: { "token": token } })
             // setData(res.data)
             getChat(userId)
-
+            socket.emit('message', userId)
             setDetail('')
             console.log(res.data)
 
@@ -99,7 +99,8 @@ const Chat = () => {
     }
 
     const sendPing = () => {
-        socket.emit('message', text);
+
+        socket.emit('message', userId);
     }
     return (
         <div className="h-100 ">
