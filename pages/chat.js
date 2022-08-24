@@ -25,7 +25,7 @@ const Chat = () => {
 
 
 
-    useEffect(() => {
+    useEffect( async () => {
 
 
         async function getData() {
@@ -39,7 +39,7 @@ const Chat = () => {
 
 
         }
-        getData()
+        await getData()
 
         // getChat(userId)
 
@@ -51,7 +51,7 @@ const Chat = () => {
         socket.on('disconnect', () => {
             setIsConnected(false);
         });
-
+        alert(profile.userId)
         socket.on(profile.userId, (data) => {
             // alert('user --- ' +userId)
             getChat(userId)
@@ -84,13 +84,13 @@ const Chat = () => {
             detail: detail,
             staff: userId,
             image: profile.pictureUrl,
-            name : profile.displayName
+            name: profile.displayName
         }
         try {
             let res = await axios.post(`${BASE_URL}/add-chat`, post, { headers: { "token": token } })
             // setData(res.data)
             getChat(userId)
-            socket.emit('message',{user_id :  userId,type : 'client'} )
+            socket.emit('message', { user_id: userId, type: 'client' })
             setDetail('')
             console.log(res.data)
 
@@ -100,14 +100,14 @@ const Chat = () => {
 
     }
 
-    
+
     const sendPing = () => {
 
         socket.emit('message', userId);
     }
     return (
         <div className="h-100 ">
-            <div className="justify-content-center h-100"> 
+            <div className="justify-content-center h-100">
 
                 <div className="card">
                     <div className="card-header msg_head">
@@ -120,16 +120,16 @@ const Chat = () => {
                                 <span>ผู้ดูแลระบบ </span>
                                 {/* <p>1767 Messages</p> */}
                             </div>
-                           
+
                         </div>
-                       
+
                     </div>
                     <div className="card-body msg_card_body">
 
-                        {isLoading ? 
-                        <div className="d-flex justify-content-center">
-                            <ReactLoading type='spinningBubbles' color='#ffffff' height={'10%'} width={'10%'} />
-                        </div> : <div></div> }
+                        {isLoading ?
+                            <div className="d-flex justify-content-center">
+                                <ReactLoading type='spinningBubbles' color='#ffffff' height={'10%'} width={'10%'} />
+                            </div> : <div></div>}
 
 
 
