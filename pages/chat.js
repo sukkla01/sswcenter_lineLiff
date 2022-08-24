@@ -39,7 +39,7 @@ const Chat = () => {
 
 
         }
-        getData()
+        // getData()
 
         // getChat(userId)
 
@@ -53,6 +53,7 @@ const Chat = () => {
         });
 
         socket.on(userId, (data) => {
+            alert('aaa -- ' +userId)
             getChat(userId)
         });
 
