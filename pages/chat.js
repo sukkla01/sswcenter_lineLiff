@@ -77,6 +77,7 @@ const Chat = () => {
             user_id : userId,
             detail : detail,
             staff : userId,
+            image : profile.pictureUrl
         }
         try {
             let res = await axios.post(`${BASE_URL}/add-chat`,post, { headers: { "token": token } })
@@ -146,7 +147,7 @@ const Chat = () => {
                                         {/* <span className="msg_time_send">2022-08-24 10:05:47</span> */}
                                     </div>
                                     <div className="img_cont_msg">
-                                        <img src={BASE_URL + '/user.png'} className="rounded-circle user_img_msg" width={20} height={20} />
+                                        <img src={item.image} className="rounded-circle user_img_msg" width={20} height={20} />
                                     </div>
                                 </div>
 
