@@ -52,7 +52,7 @@ const Chat = () => {
             setIsConnected(false);
         });
 
-        socket.on('ms'+userId, (data) => {
+        socket.on('U563d0dcd3d957d9f69df41b3b27edd38', (data) => {
             alert('user --- ' +userId)
             getChat(userId)
         });
