@@ -117,7 +117,7 @@ const Chat = () => {
                                 <span className="online_icon" />
                             </div>
                             <div className="user_info">
-                                <span>ผู้ดูแลระบบ {userId}</span>
+                                <span>ผู้ดูแลระบบ </span>
                                 {/* <p>1767 Messages</p> */}
                             </div>
                            
