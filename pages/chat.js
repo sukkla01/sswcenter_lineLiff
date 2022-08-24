@@ -15,7 +15,7 @@ const i = 1
 
 const Chat = () => {
     const [isConnected, setIsConnected] = useState(socket.connected);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [lastPong, setLastPong] = useState(null);
     const [text, setText] = useState('');
     const [userId, setUserId] = useState('');
@@ -72,7 +72,7 @@ const Chat = () => {
             console.log(res.data)
 
         } catch (error) {
-            console.log(error)
+            alert(error)
         }
 
     }
