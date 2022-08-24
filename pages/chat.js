@@ -82,7 +82,8 @@ const Chat = () => {
             user_id: userId,
             detail: detail,
             staff: userId,
-            image: profile.pictureUrl
+            image: profile.pictureUrl,
+            name : profile.displayName
         }
         try {
             let res = await axios.post(`${BASE_URL}/add-chat`, post, { headers: { "token": token } })
