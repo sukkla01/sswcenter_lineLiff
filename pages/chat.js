@@ -89,7 +89,7 @@ const Chat = () => {
             let res = await axios.post(`${BASE_URL}/add-chat`, post, { headers: { "token": token } })
             // setData(res.data)
             getChat(userId)
-            socket.emit('message', userId)
+            socket.emit('message',{user_id :  userId,type : 'client'} )
             setDetail('')
             console.log(res.data)
 
