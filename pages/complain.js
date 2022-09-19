@@ -41,6 +41,8 @@ function Complain() {
     const [fileList, setFileList] = useState([]);
     const [previewVisible, setPreviewVisible] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
 
     useEffect(() => {
         getTypeUser()
@@ -154,7 +156,7 @@ function Complain() {
         }).then(async (result) => {
             // console.log(profile.username)
             if (result.isConfirmed) {
-
+                setIsLoading(true)
                 try {
                     let res = await axios.post(`${BASE_URL}/add-complain`, formData, { headers: { "token": token } })
                     console.log(res.data)
@@ -163,6 +165,7 @@ function Complain() {
                         '',
                         'success'
                     )
+                    setIsLoading(false)
                     if (isOK.isConfirmed) {
                         console.log(isOK)
                         const liff = (await import('@line/liff')).default
@@ -171,7 +174,9 @@ function Complain() {
                         await axios.get(`https://sw-center-line.diligentsoftinter.com/rely_m/${formData.user_id}`)
                     }
 
+
                 } catch (error) {
+                    console.log(error)
                     let isOK = await Swal.fire(
                         'ข้อมูลผิดหลาด!',
                         '',
@@ -390,7 +395,7 @@ function Complain() {
                     </div> : ''} */}
 
                 <div style={{ marginTop: 30, marginLeft: 10, marginRight: 10, marginBottom: 10 }} >
-                    <Button type={profile != {} ? "primary" : "default"} block size={'large'} onClick={submit}  >
+                    <Button type={profile != {} ? "primary" : "default"} block size={'large'} onClick={submit} loading ={isLoading} >
                         ส่ง
                     </Button>
                 </div>
